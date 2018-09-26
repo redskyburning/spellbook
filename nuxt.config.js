@@ -21,6 +21,7 @@ module.exports = {
   ],
   plugins: [
     '~/plugins/plugins.js',
+    '~/plugins/filters.js',
     { src: '~/plugins/services.js', ssr: false },
   ],
   /*
