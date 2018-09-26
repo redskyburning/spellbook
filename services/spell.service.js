@@ -4,7 +4,7 @@ export default class SpellService {
   constructor($axios) {
     this.$axios = $axios;
 
-    this.DB_NAME = 'spells';
+    this.DB_NAME = 'db/spells';
     this.db      = new PouchDB(this.DB_NAME);
 
     this.db.info()
@@ -15,7 +15,7 @@ export default class SpellService {
               console.warn('DB initialized');
             })
             .catch((error) => {
-              console.error('Error initing db', error, $axios);
+              console.error('Error initing db', error);
             });
         } else {
           console.info('DB already initialized, moving on.');
