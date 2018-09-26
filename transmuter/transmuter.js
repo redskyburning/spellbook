@@ -73,30 +73,31 @@ function parseSpell(spell) {
     spellbooks : parseClasses(spell.classes[0])
   };
 
+  json._id = json.name
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-1\s]/g, '')
+    .replace(/\s/g, '_');
+
   return json;
 }
 
 function parseSpells(input) {
-  let spells = {};
+  let spells = [];
 
   if (input.compendium && Array.isArray(input.compendium.spell)) {
     input.compendium.spell.forEach((spellInput) => {
-      const parsed = parseSpell(spellInput);
+      spells.push(parseSpell(spellInput));
+      /*const parsed = parseSpell(spellInput);
 
       if (typeof parsed.name === 'string') {
-        const key = parsed.name
-          .toLowerCase()
-          .replace(/[^a-zA-Z0-1\s]/g, '')
-          .replace(/\s/g, '_');
-
-        if (!spells[key]) {
-          spells[key] = parsed;
+        if (!spells[parsed._id]) {
+          spells[parsed._id] = parsed;
         } else {
           console.warn('Duplicate key in parseSpells()', key);
         }
       } else {
         console.error('Invalid name in parseSpells()!', parsed.name)
-      }
+      }*/
     });
   } else {
     console.error('Malformed input in parseSpells()!');

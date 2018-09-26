@@ -16,8 +16,11 @@ module.exports = {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
-    '@nuxtjs/bulma',
-    '@nuxtjs/pwa'
+    //'@nuxtjs/pwa'
+  ],
+  plugins: [
+    '~/plugins/plugins.js',
+    { src: '~/plugins/services.js', ssr: false },
   ],
   /*
   ** Customize the progress bar color
@@ -27,6 +30,15 @@ module.exports = {
   ** Build configuration
   */
   build: {
+    postcss: {
+      plugins: {
+        'postcss-cssnext': {
+          features: {
+            customProperties: false
+          }
+        }
+      }
+    },
     /*
     ** Run ESLint on save
     */
