@@ -33,9 +33,11 @@ export default class SpellService {
         this.$axios.get('/data/spells.json')
           .then((response) => {
             if(response && response.data) {
-              response.data.forEach((spell) => {
+              this.db.bulkDocs(response.data);
+
+              /*response.data.forEach((spell) => {
                 this.db.put(spell);
-              });
+              });*/
 
               /*Object.keys(response.data).forEach((key) => {
                 let spell = response.data[key];
@@ -59,5 +61,21 @@ export default class SpellService {
 
   getSpellByKey(key) {
     return this.db.get(key);
+  }
+
+  getAllSpells() {
+    return new Promise((resolve,reject) => {
+      this.db.allDocs({include_docs: true})
+        .then((results) => {
+          if(results && Array.isArray(results.rows)) {
+            resolve(results.rows);
+          } else {
+            reject('Malformed response in getAllSpells()');
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 }

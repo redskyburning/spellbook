@@ -5,8 +5,8 @@ Vue.prototype.$foo = {
   spells : 'foo'
 };
 
-export default ({ app }, inject) => {
+export default ({ $axios }, inject) => {
   inject('services', {
-    spells : new SpellService(app.$axios)
+    spells : new SpellService($axios)
   });
 }

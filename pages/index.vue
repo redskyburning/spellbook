@@ -2,9 +2,9 @@
   <section class="container">
     <div>
       <app-logo/>
-      <h1 class="title">
+      <!--<h1 class="title">
         spellbook
-      </h1>
+      </h1>-->
       <h2 class="subtitle">
         Nuxt.js project
       </h2>
@@ -19,7 +19,6 @@
           class="button--grey">GitHub</a>
       </div>
     </div>
-    <pre>{{ spell|json }}</pre>
   </section>
 </template>
 
@@ -30,19 +29,17 @@ export default {
   components: {
     AppLogo
   },
-  asyncData(context) {
+  asyncData({ app }) {
     return new Promise((resolve,reject) => {
-      console.warn('???',context.app.$foo);
-      resolve({ spell : 'foo' })
-      /*app.services.spells.getSpellByKey('acid_splash')
-        .then((spell) => {
+      app.$services.spells.getAllSpells()
+        .then((spells) => {
           resolve({
-            spell : spell
+            spells : spells
           });
         })
         .catch((error) => {
           reject(error);
-        });*/
+        });
     });
   }
 }

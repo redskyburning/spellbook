@@ -50,7 +50,11 @@ function parseClasses(input) {
       let key            = classStr.toLowerCase().replace(regex, '');
       let variantMatches = classStr.toLowerCase().match(regex);
 
-      return Array.isArray(variantMatches) && variantMatches[1] ? `${key}_${variantMatches[1]}` : key;
+      if(Array.isArray(variantMatches) && typeof variantMatches[1] === 'string') {
+        key += `--${variantMatches[1].replace(/\s/g, '_')}`;
+      }
+
+      return key;
     });
   } else {
     console.error('Invalid input in parseClasses()!', input);
