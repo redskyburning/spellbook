@@ -12,7 +12,7 @@ export default class SpellService {
         if(info.doc_count === 0) {
           this.initDB()
             .then(() => {
-              console.warn('DB initialized');
+              console.info('DB initialized');
             })
             .catch((error) => {
               console.error('Error initing db', error);
@@ -55,5 +55,9 @@ export default class SpellService {
         reject('Wtf, where is axios?!');
       }
     })
+  }
+
+  getSpellByKey(key) {
+    return this.db.get(key);
   }
 }

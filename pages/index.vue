@@ -19,6 +19,7 @@
           class="button--grey">GitHub</a>
       </div>
     </div>
+    <pre>{{ spell|json }}</pre>
   </section>
 </template>
 
@@ -28,6 +29,21 @@ import AppLogo from '~/components/AppLogo.vue'
 export default {
   components: {
     AppLogo
+  },
+  asyncData(context) {
+    return new Promise((resolve,reject) => {
+      console.warn('???',context.app.$foo);
+      resolve({ spell : 'foo' })
+      /*app.services.spells.getSpellByKey('acid_splash')
+        .then((spell) => {
+          resolve({
+            spell : spell
+          });
+        })
+        .catch((error) => {
+          reject(error);
+        });*/
+    });
   }
 }
 </script>

@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import SpellService from '../services/spell.service';
 
-Vue.prototype.$services = {
-  spells : new SpellService()
+Vue.prototype.$foo = {
+  spells : 'foo'
 };
 
 export default ({ app }, inject) => {

@@ -29,6 +29,7 @@ module.exports = {
   /*
   ** Build configuration
   */
+  spa: true,
   build: {
     postcss: {
       plugins: {
