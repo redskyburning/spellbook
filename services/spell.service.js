@@ -1,14 +1,14 @@
 import PouchDB from 'pouchdb';
-//import * as find from 'pouchdb-find';
+import Find from 'pouchdb-find';
 
 export default class SpellService {
   constructor($axios) {
     this.$axios = $axios;
 
-    //PouchDB.plugin(find);
+    PouchDB.plugin(Find);
 
-    this.DB_NAME = 'db/spells';
-    this.db      = new PouchDB(this.DB_NAME);
+    this.DB_NAME     = 'db/spells';
+    this.db          = new PouchDB(this.DB_NAME);
     this.initPromise = null;
 
     this.initDB()
@@ -21,14 +21,22 @@ export default class SpellService {
   }
 
   initDB() {
-    if(this.initPromise === null) {
-      this.initPromise = new Promise((resolve,reject) => {
+    if (this.initPromise === null) {
+      this.initPromise = new Promise((resolve, reject) => {
         this.db.info()
           .then((info) => {
-            if(info.doc_count === 0) {
+            if (info.doc_count === 0) {
               this.populateDB()
                 .then(() => {
-                  resolve('DB initialized');
+                  this.db.createIndex({
+                    index: {fields: ['name']}
+                  })
+                    .then(() => {
+                      resolve('DB initialized');
+                    })
+                    .catch((error) => {
+                      reject(error);
+                    });
                 })
                 .catch((error) => {
                   console.error('Error initing db');
@@ -48,12 +56,12 @@ export default class SpellService {
     return this.initPromise;
   }
 
-  populateDB(){
-    return new Promise((resolve,reject) => {
-      if(this.$axios) {
+  populateDB() {
+    return new Promise((resolve, reject) => {
+      if (this.$axios) {
         this.$axios.get('/data/spells.json')
           .then((response) => {
-            if(response && response.data) {
+            if (response && response.data) {
               this.db.bulkDocs(response.data);
 
               resolve();
@@ -71,7 +79,7 @@ export default class SpellService {
   }
 
   getSpellByKey(key) {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       this.initDB()
         .then(() => {
           this.db.get(key)
@@ -89,16 +97,39 @@ export default class SpellService {
   }
 
   getAllSpells() {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       this.initDB()
         .then(() => {
           this.db.allDocs({include_docs: true})
             .then((results) => {
-              if(results && Array.isArray(results.rows)) {
+              if (results && Array.isArray(results.rows)) {
                 resolve(results.rows.map(row => row.doc));
               } else {
                 reject('Malformed response in getAllSpells()');
               }
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  searchSpellsByName(startsWith) {
+    return new Promise((resolve, reject) => {
+      this.initDB()
+        .then(() => {
+          this.db.find({
+            selector: {
+              name: {$regex: RegExp(startsWith,'i') }
+            }
+          })
+            .then((results) => {
+              //console.warn('???',results);
+              resolve(results.docs);
             })
             .catch((error) => {
               reject(error);
