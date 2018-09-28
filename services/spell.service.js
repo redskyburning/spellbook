@@ -151,6 +151,11 @@ export default class SpellService {
 						fields.push('name');
 					}
 
+					if (options.school && typeof options.school === 'string') {
+						selectors.school = options.school;
+						fields.push('school');
+					}
+
 					if (options.isRitual) {
 						selectors.isRitual = true;
 						fields.push('isRitual');

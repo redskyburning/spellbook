@@ -22,7 +22,18 @@ export default {
 	    	'Level 7',
 	    	'Level 8',
 	    	'Level 9',
-	    ]
+	    ],
+	    schools: {
+      	any : 'Any',
+		    abjuration : 'Abjuration',
+		    conjuration : 'Conjuration',
+		    divination : 'Divination',
+		    enchantment : 'Enchantment',
+		    evocation : 'Evocation',
+		    illusion : 'Illusion',
+		    transmutation : 'Transmutation'
+	    },
+	    selectedSchool : 'any'
     }
   },
   watch: {
@@ -36,6 +47,9 @@ export default {
 	  },
 	  isRitual: function() {
     	this.$store.dispatch('setIsRitual',this.isRitual);
+	  },
+	  selectedSchool: function() {
+    	this.$store.dispatch('setSchool',this.selectedSchool === 'any' ? null : this.selectedSchool);
 	  }
   },
   methods: {

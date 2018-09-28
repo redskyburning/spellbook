@@ -5,7 +5,7 @@
 <template>
   <section class="spellbook">
     <div class="spellbook__search">
-      <b-field label="Name Search">
+      <b-field label="Name">
         <b-input v-model="query"
                  rounded></b-input>
       </b-field>
@@ -17,6 +17,15 @@
 					<option v-for="(level, levelIndex) in levels"
 									:key="levelIndex"
 									:value="levelIndex">{{ level }}</option>
+				</b-select>
+			</b-field>
+
+			<b-field label="Arcane School">
+				<b-select v-model="selectedSchool"
+									rounded>
+					<option v-for="(schoolLabel, schoolKey) in schools"
+									:key="schoolKey"
+									:value="schoolKey">{{ schoolLabel }}</option>
 				</b-select>
 			</b-field>
 

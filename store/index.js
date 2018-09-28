@@ -5,7 +5,8 @@ const createStore = () => {
 		state    : {
 			nameQuery: '',
 			level    : null,
-			isRitual   : false,
+			isRitual : false,
+			school   : null,
 			spells   : []
 		},
 		mutations: {
@@ -17,6 +18,9 @@ const createStore = () => {
 			},
 			setSpells(state, spells) {
 				state.spells = spells;
+			},
+			setSchool(state, school) {
+				state.school = school;
 			},
 			setIsRitual(state, isRitual) {
 				state.isRitual = isRitual;
@@ -31,15 +35,21 @@ const createStore = () => {
 				store.commit('setNameQuery', nameQuery);
 				store.dispatch('query');
 			},
-			setIsRitual(store,isRitual) {
-				store.commit('setIsRitual',isRitual);
+			setIsRitual(store, isRitual) {
+				store.commit('setIsRitual', isRitual);
 				store.dispatch('query');
 			},
+			setSchool(store, school) {
+				store.commit('setSchool', school);
+				store.dispatch('query');
+			},
+
 			query(store) {
 				let options = {
 					level    : store.state.level,
 					nameQuery: store.state.nameQuery,
-					isRitual   : store.state.isRitual
+					isRitual : store.state.isRitual,
+					school : store.state.school
 				};
 
 				this.$services.spells.query(options)
