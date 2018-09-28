@@ -140,4 +140,31 @@ export default class SpellService {
         });
     });
   }
+
+  query(options) {
+	  return new Promise((resolve, reject) => {
+		  this.initDB()
+			  .then(() => {
+			  	let selectors = {};
+
+			  	if(options.level && Number.isInteger(options.level) && options.level >= 0) {
+			  		selectors.level = options.level;
+				  }
+
+				  this.db.find({
+					  selector: selectors
+				  })
+					  .then((results) => {
+						  //console.warn('???',results);
+						  resolve(results.docs);
+					  })
+					  .catch((error) => {
+						  reject(error);
+					  });
+			  })
+			  .catch((error) => {
+				  reject(error);
+			  });
+	  });
+  }
 }

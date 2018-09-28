@@ -1,1 +1,17 @@
+@import "../global-styles/includes";
 
+.spellbook {
+	display: flex;
+
+	&__results {
+		flex: 1 1 auto;
+		padding:$app-padding;
+	}
+
+	&__search {
+		width: 300px;
+		flex: 0 0 auto;
+		padding:$app-padding;
+		border-left:1px solid #333;
+	}
+}
