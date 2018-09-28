@@ -3,16 +3,7 @@
 
 
 <template>
-  <section class="container spellbook">
-		<div class="spellbook__results">
-			<spell-list-item v-for="spell in $store.state.spells"
-											 class="spellbook__result"
-											 :spell="spell"
-											 :key="spell._id"/>
-
-
-			<!--<pre>{{ spells }}</pre>-->
-		</div>
+  <section class="spellbook">
     <div class="spellbook__search">
       <b-field label="Name Search">
         <b-input v-model="query"
@@ -28,7 +19,22 @@
 									:value="levelIndex">{{ level }}</option>
 				</b-select>
 			</b-field>
+
+			<b-field label="Ritual">
+				<b-switch v-model="isRitual">
+					{{ isRitual ? 'Only Rituals' : '' }}
+				</b-switch>
+			</b-field>
     </div>
+		<div class="spellbook__results">
+			<spell-list-item v-for="spell in $store.state.spells"
+											 class="spellbook__result"
+											 :spell="spell"
+											 :key="spell._id"/>
+
+
+			<!--<pre>{{ spells }}</pre>-->
+		</div>
   </section>
 </template>
 

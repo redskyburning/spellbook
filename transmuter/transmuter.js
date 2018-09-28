@@ -71,7 +71,7 @@ function parseSpell(spell) {
     range      : spell.range[0] || null,
     duration   : spell.duration[0] || null,
     description: spell.text || [],
-    isRitual   : (Array.isArray(spell.ritual) && spell.ritual === 'YES'),
+    isRitual   : (Array.isArray(spell.ritual) && spell.ritual[0] === 'YES'),
     school     : parseSchool(spell.school[0]),
     components : parseComponents(spell.components[0]),
     spellbooks : parseClasses(spell.classes[0])

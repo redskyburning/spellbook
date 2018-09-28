@@ -1,7 +1,7 @@
 <template>
   <div class="spell-list-item">
     <!--<div class="spell-list-item__secondary"></div>-->
-    <div class="spell-list-item__primary">{{ spell.name }}</div>
+    <div class="spell-list-item__primary">{{ spell.name }} </div>
   </div>
 </template>
 

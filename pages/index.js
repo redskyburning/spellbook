@@ -9,6 +9,7 @@ export default {
       query: '',
       spells: [],
 	    selectedLevel: 0,
+	    isRitual: false,
 	    levels: [
 	    	'Any',
 	    	'Cantrip',
@@ -32,6 +33,9 @@ export default {
 	  selectedLevel: function() {
     	let level = this.selectedLevel === 0 ? null : this.selectedLevel - 1;
 			this.$store.dispatch('setLevel',level);
+	  },
+	  isRitual: function() {
+    	this.$store.dispatch('setIsRitual',this.isRitual);
 	  }
   },
   methods: {
@@ -57,5 +61,8 @@ export default {
           reject(error);
         });
     });
+  },
+  fetch(context) {
+		context.store.dispatch('init');
   }
 }
