@@ -29,6 +29,15 @@
 				</b-select>
 			</b-field>
 
+			<b-field label="Spellbook">
+				<b-select v-model="selectedSpellBook"
+									rounded>
+					<option v-for="bookKey in spellbooks"
+									:key="bookKey"
+									:value="bookKey">{{ parseSpellbookKey(bookKey) }}</option>
+				</b-select>
+			</b-field>
+
 			<b-field label="Ritual">
 				<b-switch v-model="isRitual">
 					{{ isRitual ? 'Only Rituals' : '' }}

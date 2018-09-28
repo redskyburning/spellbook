@@ -16,6 +16,9 @@ const createStore = () => {
 			setNameQuery(state, nameQuery) {
 				state.nameQuery = nameQuery;
 			},
+			setSpellbook(state, spellbook) {
+				state.spellbook = spellbook;
+			},
 			setSpells(state, spells) {
 				state.spells = spells;
 			},
@@ -29,6 +32,10 @@ const createStore = () => {
 		actions  : {
 			setLevel(store, level) {
 				store.commit('setLevel', level);
+				store.dispatch('query');
+			},
+			setSpellbook(store, spellbook) {
+				store.commit('setSpellbook', spellbook);
 				store.dispatch('query');
 			},
 			setNameQuery(store, nameQuery) {
@@ -46,10 +53,11 @@ const createStore = () => {
 
 			query(store) {
 				let options = {
+					spellbook: store.state.spellbook,
 					level    : store.state.level,
 					nameQuery: store.state.nameQuery,
 					isRitual : store.state.isRitual,
-					school : store.state.school
+					school   : store.state.school
 				};
 
 				this.$services.spells.query(options)

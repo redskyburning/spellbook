@@ -140,6 +140,9 @@ export default class SpellService {
 				.then(() => {
 					let selectors = {};
 					let fields = [];
+					let bookFilters = [];
+
+					options.nameQuery = options.nameQuery.trim();
 
 					if (options.level && Number.isInteger(options.level) && options.level >= 0) {
 						selectors.level = options.level;
@@ -154,6 +157,19 @@ export default class SpellService {
 					if (options.school && typeof options.school === 'string') {
 						selectors.school = options.school;
 						fields.push('school');
+					}
+
+					if (options.spellbook && typeof options.spellbook === 'string') {
+						let arr = [options.spellbook];
+
+						if(options.spellbook.indexOf('--') > -1) {
+							arr = [options.spellbook,options.spellbook.split('--')[0]];
+						}
+
+						console.warn('???',arr);
+
+						selectors.spellbook = { $all : arr };
+						fields.push('spellbook');
 					}
 
 					if (options.isRitual) {
@@ -178,6 +194,18 @@ export default class SpellService {
 									if (results.warning) {
 										console.warn('Find Warning:', results.warning);
 									}
+
+									let spellbooks = [];
+
+									results.docs.forEach((spell) => {
+										spell.spellbooks.forEach((key) => {
+											if(!spellbooks.includes(key)) {
+												spellbooks.push(key);
+											}
+										})
+									});
+
+									console.warn('???',spellbooks.sort());
 
 									resolve(results.docs);
 								})
