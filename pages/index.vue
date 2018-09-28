@@ -15,8 +15,7 @@
 		</div>
     <div class="spellbook__search">
       <b-field label="Name Search">
-        <b-input placeholder="No label"
-                 v-model="query"
+        <b-input v-model="query"
                  rounded></b-input>
       </b-field>
 

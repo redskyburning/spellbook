@@ -151,6 +151,10 @@ export default class SpellService {
 			  		selectors.level = options.level;
 				  }
 
+				  if(options.nameQuery && typeof options.nameQuery === 'string') {
+				  	selectors.name = {$regex: RegExp(options.nameQuery,'i') }
+				  }
+
 				  this.db.find({
 					  selector: selectors
 				  })

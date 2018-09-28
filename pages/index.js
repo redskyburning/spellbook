@@ -27,6 +27,7 @@ export default {
   watch: {
     query: function() {
       this.searchByName(this.query);
+      this.$store.dispatch('setNameQuery',this.query);
     },
 	  selectedLevel: function() {
     	let level = this.selectedLevel === 0 ? null : this.selectedLevel - 1;
