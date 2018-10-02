@@ -139,8 +139,8 @@ export default class SpellService {
 		return new Promise((resolve, reject) => {
 			this.initDB()
 				.then(() => {
-					let selectors = {};
-					let fields = [];
+					let selectors   = {};
+					let fields      = [];
 					let bookFilters = [];
 
 					options.nameQuery = options.nameQuery.trim();
@@ -173,16 +173,22 @@ export default class SpellService {
 						fields.push('spellbook');
 					}*/
 
-					if(Array.isArray(options.spellbooks) && options.spellbooks.length > 0) {
-						selectors.$or = [];
+					if (Array.isArray(options.spellbooks) && options.spellbooks.length > 0) {
+						if (options.spellbooks.length > 1) {
+							selectors.$or = [];
 
-						options.spellbooks.forEach((bookKey) => {
-							let key = `spellbooksBool.${bookKey}`;
-							let item = {};
-							item[key] = true;
-							selectors.$or.push(item);
+							options.spellbooks.forEach((bookKey) => {
+								let key   = `spellbooksBool.${bookKey}`;
+								let item  = {};
+								item[key] = true;
+								selectors.$or.push(item);
+								fields.push(key);
+							});
+						} else {
+							let key        = `spellbooksBool.${options.spellbooks[0]}`;
+							selectors[key] = true;
 							fields.push(key);
-						})
+						}
 					}
 
 					if (options.isRitual) {
@@ -191,8 +197,8 @@ export default class SpellService {
 					}
 
 					let createParams = {
-						index : {
-							fields : fields
+						index: {
+							fields: fields
 						}
 					};
 
@@ -202,7 +208,7 @@ export default class SpellService {
 
 					this.db.createIndex(createParams)
 						.then((result) => {
-							console.warn('???',findParams,createParams);
+							//console.warn('???', findParams, createParams);
 							this.db.find(findParams)
 								.then((results) => {
 									if (results.warning) {
@@ -213,7 +219,7 @@ export default class SpellService {
 
 									results.docs.forEach((spell) => {
 										spell.spellbooks.forEach((key) => {
-											if(!spellbooks.includes(key)) {
+											if (!spellbooks.includes(key)) {
 												spellbooks.push(key);
 											}
 										})

@@ -70,7 +70,6 @@ const createStore = () => {
 
 				this.$services.spells.query(options)
 					.then((spells) => {
-						console.error('setting',spells);
 						store.commit('setSpells', spells);
 					})
 					.catch((error) => {

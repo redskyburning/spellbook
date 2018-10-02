@@ -29,28 +29,28 @@
 				</b-select>
 			</b-field>
 
-			<b-field label="Spellbook">
-				<b-select v-model="selectedSpellBook"
-									rounded>
-					<option v-for="bookKey in spellbooks"
-									:key="bookKey"
-									:value="bookKey">{{ parseSpellbookKey(bookKey) }}</option>
-				</b-select>
-			</b-field>
-
-			<div v-for="bookKey in spellbooks"
-				:key="bookKey">
-				<b-checkbox v-model="selectedBooks"
-										:native-value="bookKey">
-					{{ parseSpellbookKey(bookKey) }}
-				</b-checkbox>
-			</div>
-
 			<b-field label="Ritual">
 				<b-switch v-model="isRitual">
 					{{ isRitual ? 'Only Rituals' : '' }}
 				</b-switch>
 			</b-field>
+
+			<b-field label="Filter By Spellbook?">
+				<b-switch v-model="filterBooks">
+					{{ filterBooks ? 'Yes' : 'No' }}
+				</b-switch>
+			</b-field>
+
+			<div v-if="filterBooks">
+				<div class="label">Spellbooks</div>
+				<div v-for="bookKey in spellbooks"
+						 :key="bookKey">
+					<b-checkbox v-model="selectedBooks"
+											:native-value="bookKey">
+						{{ parseSpellbookKey(bookKey) }}
+					</b-checkbox>
+				</div>
+			</div>
     </div>
 		<div class="spellbook__results">
 			<spell-list-item v-for="spell in $store.state.spells"
