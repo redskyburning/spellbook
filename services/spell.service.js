@@ -145,7 +145,7 @@ export default class SpellService {
 
 					options.nameQuery = options.nameQuery.trim();
 
-					if (options.level && Number.isInteger(options.level) && options.level >= 0) {
+					if (Number.isInteger(options.level) && options.level >= 0) {
 						selectors.level = options.level;
 						fields.push('level');
 					}
@@ -159,19 +159,6 @@ export default class SpellService {
 						selectors.school = options.school;
 						fields.push('school');
 					}
-
-					/*if (options.spellbook && typeof options.spellbook === 'string') {
-						let arr = [options.spellbook];
-
-						if(options.spellbook.indexOf('--') > -1) {
-							arr = [options.spellbook,options.spellbook.split('--')[0]];
-						}
-
-						console.warn('???',arr);
-
-						selectors.spellbook = { $all : arr };
-						fields.push('spellbook');
-					}*/
 
 					if (Array.isArray(options.spellbooks) && options.spellbooks.length > 0) {
 						if (options.spellbooks.length > 1) {
@@ -208,7 +195,7 @@ export default class SpellService {
 
 					this.db.createIndex(createParams)
 						.then((result) => {
-							//console.warn('???', findParams, createParams);
+							console.warn('???', findParams, createParams);
 							this.db.find(findParams)
 								.then((results) => {
 									if (results.warning) {
