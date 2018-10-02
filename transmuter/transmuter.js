@@ -2,6 +2,7 @@
 
 var fs     = require('fs');
 var xml2js = require('xml2js');
+var supportedSpellbooks = require('../constants/supported-spellbooks');
 
 
 var parser = new xml2js.Parser();
@@ -64,45 +65,11 @@ function parseClasses(input) {
 }
 
 function parseClassesBool(input) {
-	let defaultBooks = {
-		'artificer' : false,
-		'bard' : false,
-		'cleric' : false,
-		'cleric--arcana' : false,
-		'cleric--death' : false,
-		'cleric--knowledge' : false,
-		'cleric--life' : false,
-		'cleric--light' : false,
-		'cleric--nature' : false,
-		'cleric--tempest' : false,
-		'cleric--trickery' : false,
-		'cleric--war' : false,
-		'druid' : false,
-		'druid--arctic' : false,
-		'druid--coast' : false,
-		'druid--desert' : false,
-		'druid--forest' : false,
-		'druid--grassland' : false,
-		'druid--mountain' : false,
-		'druid--swamp' : false,
-		'druid--underdark' : false,
-		'fighter--eldritch_knight' : false,
-		'paladin' : false,
-		'paladin--ancients' : false,
-		'paladin--crown' : false,
-		'paladin--devotion' : false,
-		'paladin--oathbreaker' : false,
-		'paladin--vengeance' : false,
-		'ranger' : false,
-		'rogue--arcane_trickster' : false,
-		'sorcerer' : false,
-		'warlock' : false,
-		'warlock--archfey' : false,
-		'warlock--fiend' : false,
-		'warlock--great_old_one' : false,
-		'warlock--undying' : false,
-		'wizard' : false,
-	};
+	let defaultBooks = {};
+
+	supportedSpellbooks.forEach(bookKey => {
+		defaultBooks[bookKey] = false;
+	});
 
 	if (typeof input === 'string') {
 		let classArr = input.split(', ');
@@ -159,7 +126,7 @@ function parseSpells(input) {
 		console.error('Malformed input in parseSpells()!');
 	}
 
-	/*let bookList = [];
+	let bookList = [];
 
 	spells.forEach((spell) => {
 		spell.spellbooks.forEach((book) => {
@@ -169,7 +136,7 @@ function parseSpells(input) {
 		});
 	});
 
-	console.warn('books',bookList.sort());*/
+	console.warn('books',bookList.sort());
 
 	return spells;
 }

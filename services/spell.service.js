@@ -1,5 +1,6 @@
 import PouchDB from 'pouchdb';
 import Find from 'pouchdb-find';
+import supportedSpellbooks from '../constants/supported-spellbooks';
 
 export default class SpellService {
 	constructor($axios) {
@@ -159,7 +160,7 @@ export default class SpellService {
 						fields.push('school');
 					}
 
-					if (options.spellbook && typeof options.spellbook === 'string') {
+					/*if (options.spellbook && typeof options.spellbook === 'string') {
 						let arr = [options.spellbook];
 
 						if(options.spellbook.indexOf('--') > -1) {
@@ -170,6 +171,18 @@ export default class SpellService {
 
 						selectors.spellbook = { $all : arr };
 						fields.push('spellbook');
+					}*/
+
+					if(Array.isArray(options.spellbooks) && options.spellbooks.length > 0) {
+						selectors.$or = [];
+
+						options.spellbooks.forEach((bookKey) => {
+							let key = `spellbooksBool.${bookKey}`;
+							let item = {};
+							item[key] = true;
+							selectors.$or.push(item);
+							fields.push(key);
+						})
 					}
 
 					if (options.isRitual) {
@@ -189,6 +202,7 @@ export default class SpellService {
 
 					this.db.createIndex(createParams)
 						.then((result) => {
+							console.warn('???',findParams,createParams);
 							this.db.find(findParams)
 								.then((results) => {
 									if (results.warning) {
@@ -204,8 +218,6 @@ export default class SpellService {
 											}
 										})
 									});
-
-									console.warn('???',spellbooks.sort());
 
 									resolve(results.docs);
 								})

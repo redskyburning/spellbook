@@ -3,11 +3,12 @@ import Vuex from 'vuex'
 const createStore = () => {
 	return new Vuex.Store({
 		state    : {
-			nameQuery: '',
-			level    : null,
-			isRitual : false,
-			school   : null,
-			spells   : []
+			nameQuery : '',
+			level     : null,
+			isRitual  : false,
+			school    : null,
+			spellbooks: [],
+			spells    : []
 		},
 		mutations: {
 			setLevel(state, level) {
@@ -27,6 +28,9 @@ const createStore = () => {
 			},
 			setIsRitual(state, isRitual) {
 				state.isRitual = isRitual;
+			},
+			setSpellbooks(state, spellbooks) {
+				state.spellbooks = spellbooks;
 			}
 		},
 		actions  : {
@@ -50,18 +54,23 @@ const createStore = () => {
 				store.commit('setSchool', school);
 				store.dispatch('query');
 			},
-
+			setSpellbooks(store, spellbooks) {
+				store.commit('setSpellbooks', spellbooks);
+				store.dispatch('query');
+			},
 			query(store) {
 				let options = {
-					spellbook: store.state.spellbook,
-					level    : store.state.level,
-					nameQuery: store.state.nameQuery,
-					isRitual : store.state.isRitual,
-					school   : store.state.school
+					//spellbook: store.state.spellbook,
+					spellbooks: store.state.spellbooks,
+					level     : store.state.level,
+					nameQuery : store.state.nameQuery,
+					isRitual  : store.state.isRitual,
+					school    : store.state.school
 				};
 
 				this.$services.spells.query(options)
 					.then((spells) => {
+						console.error('setting',spells);
 						store.commit('setSpells', spells);
 					})
 					.catch((error) => {

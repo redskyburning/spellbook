@@ -35,6 +35,7 @@ export default {
 			},
 			selectedSchool: 'any',
 			selectedSpellBook: 'any',
+			selectedBooks: [],
 			spellbooks       : [
 				'any',
 				'bard',
@@ -90,8 +91,12 @@ export default {
 		selectedSchool: function() {
 			this.$store.dispatch('setSchool', this.selectedSchool === 'any' ? null : this.selectedSchool);
 		},
-		selectedSpellBook: function() {
-			this.$store.dispatch('setSpellbook', this.selectedSpellBook === 'any' ? null : this.selectedSpellBook);
+		selectedSpellBooks: function() {
+			console.warn('???');
+			this.$store.dispatch('setSpellbooks', this.selectedSpellBook === 'any' ? null : this.selectedSpellBooks);
+		},
+		selectedBooks: function() {
+			this.$store.dispatch('setSpellbooks', this.selectedBooks);
 		}
 	},
 	methods   : {

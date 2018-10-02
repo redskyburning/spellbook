@@ -38,6 +38,14 @@
 				</b-select>
 			</b-field>
 
+			<div v-for="bookKey in spellbooks"
+				:key="bookKey">
+				<b-checkbox v-model="selectedBooks"
+										:native-value="bookKey">
+					{{ parseSpellbookKey(bookKey) }}
+				</b-checkbox>
+			</div>
+
 			<b-field label="Ritual">
 				<b-switch v-model="isRitual">
 					{{ isRitual ? 'Only Rituals' : '' }}
