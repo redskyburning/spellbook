@@ -165,14 +165,14 @@ export default class SpellService {
 							selectors.$or = [];
 
 							options.spellbooks.forEach((bookKey) => {
-								let key   = `spellbooksBool.${bookKey}`;
+								let key   = `spellbooks.${bookKey}`;
 								let item  = {};
 								item[key] = true;
 								selectors.$or.push(item);
 								fields.push(key);
 							});
 						} else {
-							let key        = `spellbooksBool.${options.spellbooks[0]}`;
+							let key        = `spellbooks.${options.spellbooks[0]}`;
 							selectors[key] = true;
 							fields.push(key);
 						}
@@ -181,6 +181,11 @@ export default class SpellService {
 					if (options.isRitual) {
 						selectors.isRitual = true;
 						fields.push('isRitual');
+					}
+
+					if (options.concentration) {
+						selectors.concentration = true;
+						fields.push('concentration');
 					}
 
 					let createParams = {
@@ -201,16 +206,6 @@ export default class SpellService {
 									if (results.warning) {
 										console.warn('Find Warning:', results.warning);
 									}
-
-									let spellbooks = [];
-
-									results.docs.forEach((spell) => {
-										spell.spellbooks.forEach((key) => {
-											if (!spellbooks.includes(key)) {
-												spellbooks.push(key);
-											}
-										})
-									});
 
 									resolve(results.docs);
 								})

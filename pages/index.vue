@@ -35,6 +35,10 @@
 				</b-switch>
 			</b-field>
 
+			<b-field label="Concentration">
+				<b-switch v-model="concentration"></b-switch>
+			</b-field>
+
 			<b-field label="Filter By Spellbook?">
 				<b-switch v-model="filterBooks">
 					{{ filterBooks ? 'Yes' : 'No' }}

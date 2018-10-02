@@ -1,11 +1,13 @@
 // Spell source : https://github.com/ceryliae/DnDAppFiles/blob/master/Spells/PHB%20Spells.xml
 
-var fs     = require('fs');
-var xml2js = require('xml2js');
+var fs                  = require('fs');
+var xml2js              = require('xml2js');
 var supportedSpellbooks = require('../constants/supported-spellbooks');
 
 
 var parser = new xml2js.Parser();
+
+var concentrationRegex = /^Concentration,\s+(.+)$/;
 
 function parseSchool(schoolInput) {
 	const dict = {
@@ -41,30 +43,6 @@ function parseComponents(input) {
 }
 
 function parseClasses(input) {
-	let classes = [];
-
-	if (typeof input === 'string') {
-		let classArr = input.split(', ');
-		const regex  = /\s+\((.+)\)/;
-
-		classes = classArr.map((classStr) => {
-			let key            = classStr.toLowerCase().replace(regex, '');
-			let variantMatches = classStr.toLowerCase().match(regex);
-
-			if (Array.isArray(variantMatches) && typeof variantMatches[1] === 'string') {
-				key += `--${variantMatches[1].replace(/\s/g, '_')}`;
-			}
-
-			return key;
-		});
-	} else {
-		console.error('Invalid input in parseClasses()!', input);
-	}
-
-	return classes;
-}
-
-function parseClassesBool(input) {
 	let defaultBooks = {};
 
 	supportedSpellbooks.forEach(bookKey => {
@@ -86,25 +64,33 @@ function parseClassesBool(input) {
 			defaultBooks[key] = true;
 		});
 	} else {
-		console.error('Invalid input in parseClassesBool()!', input);
+		console.error('Invalid input in parseClasses()!', input);
 	}
 
 	return defaultBooks;
 }
 
+function parseDuration(input) {
+	return concentrationRegex.test(input) ? input.match(concentrationRegex) : input;
+}
+
+function parseConcentration(input) {
+	return concentrationRegex.test(input);
+}
+
 function parseSpell(spell) {
 	let json = {
-		name       : spell.name[0] || null,
-		level      : Number(spell.level[0]) || null,
-		time       : spell.time[0] || null,
-		range      : spell.range[0] || null,
-		duration   : spell.duration[0] || null,
-		description: spell.text || [],
-		isRitual   : (Array.isArray(spell.ritual) && spell.ritual[0] === 'YES'),
-		school     : parseSchool(spell.school[0]),
-		components : parseComponents(spell.components[0]),
-		spellbooks : parseClasses(spell.classes[0]),
-		spellbooksBool : parseClassesBool(spell.classes[0]),
+		name          : spell.name[0] || null,
+		level         : Number(spell.level[0]) || null,
+		time          : spell.time[0] || null,
+		range         : spell.range[0] || null,
+		duration      : parseDuration(spell.duration[0]),
+		concentration : parseConcentration(spell.duration[0]),
+		description   : spell.text || [],
+		isRitual      : (Array.isArray(spell.ritual) && spell.ritual[0] === 'YES'),
+		school        : parseSchool(spell.school[0]),
+		components    : parseComponents(spell.components[0]),
+		spellbooks    : parseClasses(spell.classes[0]),
 	};
 
 	json._id = json.name
@@ -126,7 +112,7 @@ function parseSpells(input) {
 		console.error('Malformed input in parseSpells()!');
 	}
 
-	let bookList = [];
+	/*let bookList = [];
 
 	spells.forEach((spell) => {
 		spell.spellbooks.forEach((book) => {
@@ -136,7 +122,7 @@ function parseSpells(input) {
 		});
 	});
 
-	console.warn('books',bookList.sort());
+	console.warn('books',bookList.sort());*/
 
 	return spells;
 }

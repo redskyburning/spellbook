@@ -10,6 +10,7 @@ export default {
 			query         : '',
 			selectedLevel : 0,
 			isRitual      : false,
+			concentration : false,
 			levels        : [
 				'Any',
 				'Cantrip',
@@ -37,7 +38,7 @@ export default {
 			selectedSchool: 'any',
 			selectedBooks : [],
 			spellbooks    : supportedSpellbooks,
-			filterBooks : false
+			filterBooks   : false
 		}
 	},
 	watch     : {
@@ -51,15 +52,18 @@ export default {
 		isRitual      : function() {
 			this.$store.dispatch('setIsRitual', this.isRitual);
 		},
+		concentration : function() {
+			this.$store.dispatch('setConcentration', this.concentration);
+		},
 		selectedSchool: function() {
 			this.$store.dispatch('setSchool', this.selectedSchool === 'any' ? null : this.selectedSchool);
 		},
 		selectedBooks : function() {
 			this.$store.dispatch('setSpellbooks', this.selectedBooks);
 		},
-		filterBooks : function() {
-			if(!this.filterBooks){
-				this.selectedBooks.splice(0,this.selectedBooks.length);
+		filterBooks   : function() {
+			if (!this.filterBooks) {
+				this.selectedBooks.splice(0, this.selectedBooks.length);
 			}
 		}
 	},

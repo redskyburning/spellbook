@@ -3,12 +3,13 @@ import Vuex from 'vuex'
 const createStore = () => {
 	return new Vuex.Store({
 		state    : {
-			nameQuery : '',
-			level     : null,
-			isRitual  : false,
-			school    : null,
-			spellbooks: [],
-			spells    : []
+			nameQuery    : '',
+			level        : null,
+			isRitual     : false,
+			concentration: false,
+			school       : null,
+			spellbooks   : [],
+			spells       : []
 		},
 		mutations: {
 			setLevel(state, level) {
@@ -28,6 +29,9 @@ const createStore = () => {
 			},
 			setIsRitual(state, isRitual) {
 				state.isRitual = isRitual;
+			},
+			setConcentration(state, concentration) {
+				state.concentration = concentration;
 			},
 			setSpellbooks(state, spellbooks) {
 				state.spellbooks = spellbooks;
@@ -50,6 +54,10 @@ const createStore = () => {
 				store.commit('setIsRitual', isRitual);
 				store.dispatch('query');
 			},
+			setConcentration(store, concentration) {
+				store.commit('setConcentration', concentration);
+				store.dispatch('query');
+			},
 			setSchool(store, school) {
 				store.commit('setSchool', school);
 				store.dispatch('query');
@@ -61,11 +69,12 @@ const createStore = () => {
 			query(store) {
 				let options = {
 					//spellbook: store.state.spellbook,
-					spellbooks: store.state.spellbooks,
-					level     : store.state.level,
-					nameQuery : store.state.nameQuery,
-					isRitual  : store.state.isRitual,
-					school    : store.state.school
+					spellbooks   : store.state.spellbooks,
+					level        : store.state.level,
+					nameQuery    : store.state.nameQuery,
+					isRitual     : store.state.isRitual,
+					concentration: store.state.concentration,
+					school       : store.state.school
 				};
 
 				this.$services.spells.query(options)
