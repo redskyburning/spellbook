@@ -20,4 +20,8 @@
 		width: 300px;
 		flex: 0 0 auto;
 	}
+
+	&__result {
+		margin-bottom:$app-padding;
+	}
 }

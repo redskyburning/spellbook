@@ -14,6 +14,8 @@
 </script>
 
 <style lang="scss">
+	@import "../global-styles/includes";
+
   .spell-list-item {
     display:flex;
     flex-direction:row;
@@ -26,6 +28,15 @@
 
     &__primary {
       flex:1 1 auto;
+
+			&:first-letter {
+				font-size:1.2em;
+				color:#fff;
+				//background:$primary;
+				display:inline-block;
+				padding:.2em .5em;
+				margin-right:.1em;
+			}
     }
   }
 </style>

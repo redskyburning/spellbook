@@ -55,6 +55,8 @@
 					</b-checkbox>
 				</div>
 			</div>
+
+			<a class="button is-primary">Primary</a>
     </div>
 		<div class="spellbook__results">
 			<spell-list-item v-for="spell in $store.state.spells"
