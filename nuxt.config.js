@@ -20,6 +20,7 @@ module.exports = {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
+	  ['nuxt-sass-resources-loader', '~/global-styles/includes.scss'],
     //'@nuxtjs/pwa'
   ],
   plugins: [
