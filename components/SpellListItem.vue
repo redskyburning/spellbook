@@ -32,9 +32,9 @@
 			&:first-letter {
 				font-size:1.2em;
 				color:#fff;
-				//background:$primary;
+				background:$primary;
 				display:inline-block;
-				padding:.2em .5em;
+				padding:.15em .35em;
 				margin-right:.1em;
 			}
     }

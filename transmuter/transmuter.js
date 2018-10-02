@@ -71,7 +71,9 @@ function parseClasses(input) {
 }
 
 function parseDuration(input) {
-	return concentrationRegex.test(input) ? input.match(concentrationRegex) : input;
+	let str = concentrationRegex.test(input) ? input.match(concentrationRegex)[1] : input;
+	str = str.charAt(0).toUpperCase() + str.slice(1);
+	return str;
 }
 
 function parseConcentration(input) {
