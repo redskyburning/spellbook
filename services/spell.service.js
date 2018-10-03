@@ -94,17 +94,28 @@ export default class SpellService {
 		return new Promise((resolve, reject) => {
 			this.initDB()
 				.then(() => {
-					this.db.allDocs({include_docs: true})
-						.then((results) => {
-							if (results && Array.isArray(results.rows)) {
-								resolve(results.rows.map(row => row.doc));
-							} else {
-								reject('Malformed response in getAllSpells()');
-							}
-						})
-						.catch((error) => {
-							reject(error);
-						});
+					if(true) {
+						this.query()
+							.then((spells) => {
+								resolve(spells);
+							})
+							.catch((error) => {
+								reject(error);
+							});
+					} else {
+						this.db.allDocs({include_docs: true})
+							.then((results) => {
+								if (results && Array.isArray(results.rows)) {
+
+									resolve(results.rows.map(row => row.doc));
+								} else {
+									reject('Malformed response in getAllSpells()');
+								}
+							})
+							.catch((error) => {
+								reject(error);
+							});
+					}
 				})
 				.catch((error) => {
 					reject(error);
@@ -135,7 +146,7 @@ export default class SpellService {
 		});
 	}
 
-	query(options) {
+	query(options = {}) {
 		return new Promise((resolve, reject) => {
 			this.initDB()
 				.then(() => {
@@ -143,7 +154,9 @@ export default class SpellService {
 					let fields      = [];
 					let bookFilters = [];
 
-					options.nameQuery = options.nameQuery.trim();
+					if(typeof options.nameQuery === 'string') {
+
+					}
 
 					if (Number.isInteger(options.level) && options.level >= 0) {
 						selectors.level = options.level;
@@ -151,7 +164,7 @@ export default class SpellService {
 					}
 
 					if (options.nameQuery && typeof options.nameQuery === 'string') {
-						selectors.name = {$regex: RegExp(options.nameQuery, 'i')};
+						selectors.name = {$regex: RegExp(options.nameQuery.trim(), 'i')};
 						fields.push('name');
 					}
 

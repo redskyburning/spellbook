@@ -20,6 +20,8 @@
     display:flex;
     flex-direction:row;
     align-items:stretch;
+		font-family:$sanchez;
+		font-size:1.5rem;
 
     &__secondary {
       flex:0 0 auto;
@@ -31,11 +33,11 @@
 
 			&:first-letter {
 				font-size:1.2em;
-				color:#fff;
+				/*color:#fff;
 				background:$primary;
 				display:inline-block;
 				padding:.15em .35em;
-				margin-right:.1em;
+				margin-right:.1em;*/
 			}
     }
   }

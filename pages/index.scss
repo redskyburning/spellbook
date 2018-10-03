@@ -16,10 +16,10 @@
 
 	&__search {
 		width: 300px;
-		flex: 0 0 auto;
+		flex: 0 1 auto;
 	}
 
 	&__result {
-		margin-bottom:$app-padding;
+		margin-bottom:$app-spacing;
 	}
 }
