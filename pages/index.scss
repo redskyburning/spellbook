@@ -7,11 +7,11 @@
 	}
 
 	> * + * {
-		border-left:1px solid #333;
+		border-left:$app-border;
 	}
 
 	&__results {
-		flex: 1 1 auto;
+		flex: 0 1 24rem;
 	}
 
 	&__search {
@@ -20,6 +20,10 @@
 	}
 
 	&__result {
-		margin-bottom:$app-spacing;
+		& + & {
+			margin-top:$app-padding;
+			padding-top:$app-padding;
+			border-top:$app-border;
+		}
 	}
 }

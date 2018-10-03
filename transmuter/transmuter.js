@@ -83,7 +83,7 @@ function parseConcentration(input) {
 function parseSpell(spell) {
 	let json = {
 		name          : spell.name[0] || null,
-		level         : Number(spell.level[0]) || null,
+		level         : Number(spell.level[0]),
 		time          : spell.time[0] || null,
 		range         : spell.range[0] || null,
 		duration      : parseDuration(spell.duration[0]),
