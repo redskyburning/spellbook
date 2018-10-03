@@ -20,10 +20,14 @@
 	}
 
 	&__result {
+
+		&.is-expanded {
+			border-bottom:$app-border;
+			padding-bottom:$app-padding;
+		}
+
 		& + & {
 			margin-top:$app-padding;
-			padding-top:$app-padding;
-			border-top:$app-border;
 		}
 	}
 }

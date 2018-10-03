@@ -21,7 +21,7 @@
     },
 		data() {
     	return {
-    		isExpanded: true
+    		isExpanded: false
 			}
 		}
   }
