@@ -17,6 +17,10 @@
 	&__search {
 		width: 300px;
 		flex: 0 1 auto;
+		max-height:100vh;
+		position:sticky;
+		top:0;
+		overflow-y:auto;
 	}
 
 	&__result {
@@ -29,5 +33,10 @@
 		& + & {
 			margin-top:$app-padding;
 		}
+	}
+
+	&__no-results {
+		text-align:center;
+		font-size:1.5rem;
 	}
 }
