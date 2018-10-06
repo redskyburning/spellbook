@@ -4,18 +4,20 @@
   `is-${this.spell.school}`
   ]">
 		<!--<div class="spell-list-item__secondary"></div>-->
-		<div class="spell-list-item__primary" @click="isExpanded = !isExpanded">
+		<div class="spell-list-item__primary" >
 			<b-tooltip :label="spell|schoolLevel"
 								 type="is-white"
 								 position="is-left">
-				<div class="spell-list-item__level">
+				<div class="spell-list-item__level"
+						 @click="isExpanded = !isExpanded">
 					<span>{{ spell.level || 'C' }}</span>
 				</div>
 			</b-tooltip>
-			<div class="spell-list-item__name">{{ spell.name }}</div>
+			<div class="spell-list-item__name"
+					 @click="isExpanded = !isExpanded">{{ spell.name }}</div>
 			<button class="button is-primary"
 							v-if="canCast(spell,$store.state.castingSlots)"
-							@click="cast(spell,spell.level)">Cast</button>
+							@click="cast(spell,spell.level)"><i class="fas fa-magic"></i></button>
 		</div>
 		<div class="spell-list-item__secondary">
 			<div class="spell-list-item__meta">
@@ -128,6 +130,8 @@
 		}
 
 		&__name {
+			flex:1 1 auto;
+
 			&:first-letter {
 				font-size: 1.2em;
 			}

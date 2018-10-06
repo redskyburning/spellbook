@@ -52,6 +52,11 @@ const createStore = () => {
 			}
 		},
 		actions  : {
+			castSpell(store, spell, level) {
+				if(level > 0){
+
+				}
+			},
 			setLevel(store, level) {
 				store.commit('setLevel', level);
 				store.dispatch('query');
