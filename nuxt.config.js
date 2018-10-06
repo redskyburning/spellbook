@@ -10,14 +10,25 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+	    {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Sanchez|Raleway:500'},
+	    {rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.6/css/all.css'},
     ]
   },
+	css: [
+		'assets/buefy.scss'
+	],
+  mode: 'spa',
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
-    '@nuxtjs/bulma',
-    '@nuxtjs/pwa'
+	  ['nuxt-sass-resources-loader', '~/global-styles/includes.scss'],
+    //'@nuxtjs/pwa'
+  ],
+  plugins: [
+    '~/plugins/plugins.js',
+    '~/plugins/filters.js',
+    { src: '~/plugins/services.js', ssr: false },
   ],
   /*
   ** Customize the progress bar color
@@ -26,12 +37,22 @@ module.exports = {
   /*
   ** Build configuration
   */
+  spa: true,
   build: {
+    postcss: {
+      plugins: {
+        'postcss-cssnext': {
+          features: {
+            customProperties: false
+          }
+        }
+      }
+    },
     /*
     ** Run ESLint on save
     */
-    extend (config, { isDev, isClient }) {
-      if (isDev && isClient) {
+    extend (config, { isDev }) {
+      if (isDev && process.client) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
