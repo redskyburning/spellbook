@@ -5,12 +5,12 @@
 				 :key="level">
 			<div class="casting-slot-status__meta">
 				<div class="casting-slot-status__level__name">{{ level|levelLabel }}</div>
-				<div class="casting-slot-status__level__count">{{ slots|emptySlotCount }}/{{ slots.length }}</div>
+				<div class="casting-slot-status__level__count">{{ slots.remaining }}/{{ slots.max }}</div>
 			</div>
 			<div class="casting-slot-status__used-slots" >
 				<div class="casting-slot-status__used-slot"
 						 :key="spellIndex"
-						 v-for="(spell, spellIndex) in getUsedSlots(slots)">{{ spell }}</div>
+						 v-for="(spell, spellIndex) in slots.cast">{{ spell.name }}</div>
 			</div>
 		</div>
 	</div>
@@ -39,6 +39,7 @@
 			display:flex;
 			flex-direction:row;
 			justify-content: space-between;
+			font-size:1.2em;
 
 			> * + * {
 				margin-left:$app-spacing;

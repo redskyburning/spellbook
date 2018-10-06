@@ -16,7 +16,6 @@
 			<div class="spell-list-item__name"
 					 @click="isExpanded = !isExpanded">{{ spell.name }}</div>
 			<button class="button is-primary"
-							v-if="canCast(spell,$store.state.castingSlots)"
 							@click="cast(spell,spell.level)"><i class="fas fa-magic"></i></button>
 		</div>
 		<div class="spell-list-item__secondary">
@@ -66,7 +65,30 @@
 		},
 		methods: {
 			cast(spell,level) {
-				this.$store.dispatch('castSpell',spell,level);
+				this.$store.dispatch('castSpell',{
+					spell,
+					level
+				})
+					.then(() => {
+						let message = `${spell.name} cast` + ((spell.level !== level) ? ` at level ${level}` : '');
+
+						this.$toast.open({
+							duration: 1000,
+							message: message,
+							position: 'is-bottom',
+							queue: false,
+							type: 'is-success'
+						})
+					})
+					.catch((error) => {
+						this.$toast.open({
+							duration: 1000,
+							message: error,
+							position: 'is-bottom',
+							queue: false,
+							type: 'is-danger'
+						})
+					});
 			},
 			canCast(spell,castingSlots) {
 				if(spell.level === 0) {
@@ -78,12 +100,8 @@
 				let maxLevel = levels[levels.length - 1];
 
 				for(let i = Number(spell.level); i <= maxLevel; i++) {
-					if(Array.isArray(castingSlots[i])) {
-						if(castingSlots[i].filter(slot => slot === null).length > 0) {
-							canI = true;
-						}
-					} else {
-						console.error('???',castingSlots[i],castingSlots,i);
+					if(castingSlots[i].remaining > 0) {
+						canI = true;
 					}
 				}
 

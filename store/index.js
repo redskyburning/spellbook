@@ -18,11 +18,31 @@ const createStore = () => {
 				}
 			],
 			castingSlots: {
-				1 : ['foo',null,null,null],
-				2 : [null,null,null],
-				3 : [null,null,null],
-				4 : [null,null,null],
-				5 : [null,null]
+				1 : {
+					max : 4,
+					remaining : 3,
+					cast : []
+				},
+				2 : {
+					max : 3,
+					remaining : 3,
+					cast : []
+				},
+				3 : {
+					max : 3,
+					remaining : 3,
+					cast : []
+				},
+				4 : {
+					max : 3,
+					remaining : 3,
+					cast : []
+				},
+				5 : {
+					max : 2,
+					remaining : 2,
+					cast : []
+				},
 			}
 		},
 		mutations: {
@@ -49,13 +69,34 @@ const createStore = () => {
 			},
 			setSpellbooks(state, spellbooks) {
 				state.spellbooks = spellbooks;
+			},
+			addCast(state, { spell, level }) {
+				let slot = state.castingSlots[level];
+
+				if(slot) {
+					slot.remaining--;
+					slot.cast.push(spell);
+				}
 			}
 		},
 		actions  : {
-			castSpell(store, spell, level) {
-				if(level > 0){
-
-				}
+			castSpell(store, { spell, level }) {
+				return new Promise((resolve,reject) => {
+					if(level > 0 && spell.level > 0){
+						if(store.state.castingSlots[level]) {
+							if (store.state.castingSlots[level].remaining > 0) {
+								store.commit('addCast', {spell, level});
+								resolve();
+							} else {
+								reject(`You don't have any remaining level ${level} spell slots.`)
+							}
+						} else {
+							reject(`You don't have any level ${level} spell slots.`)
+						}
+					} else {
+						reject(`Missing params in castSpell! Level: ${level}, Spell: ${spell._id} `);
+					}
+				});
 			},
 			setLevel(store, level) {
 				store.commit('setLevel', level);
