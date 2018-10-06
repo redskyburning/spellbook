@@ -55,8 +55,18 @@
 				</div>
 			</div>
     </div>
-		<spell-list class="spellbook__results"
-								:spells="$store.state.spells"></spell-list>
+		<div class="spellbook__results">
+			<spell-list-item v-for="spell in $store.state.spells"
+											 v-if="$store.state.spells.length > 0"
+											 class="spellbook__result"
+											 :spell="spell"
+											 :key="spell._id"/>
+
+			<div class="spellbook__no-results" v-if="$store.state.spells.length < 1">No spells found!</div>
+
+
+			<!--<pre>{{ spells }}</pre>-->
+		</div>
   </section>
 </template>
 

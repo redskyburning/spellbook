@@ -1,11 +1,9 @@
-import SpellListItem from '~/components/SpellListItem.vue';
-import SpellList from '~/components/SpellList.vue';
+import SpellListItem from '~/components/SpellListItem.vue'
 import supportedSpellbooks from '../constants/supported-spellbooks';
 
 export default {
 	components: {
-		SpellListItem,
-		SpellList
+		SpellListItem
 	},
 	data() {
 		return {

@@ -9,7 +9,14 @@ const createStore = () => {
 			concentration: false,
 			school       : null,
 			spellbooks   : [],
-			spells       : []
+			spells       : [],
+			preparedSlots: [
+				{
+					level : 3,
+					spellbooks : ['cleric','cleric--death'],
+					selected : null
+				}
+			]
 		},
 		mutations: {
 			setLevel(state, level) {
