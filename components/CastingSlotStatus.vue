@@ -5,7 +5,7 @@
 				 :key="level">
 			<div class="casting-slot-status__meta">
 				<div class="casting-slot-status__level__name">{{ level|levelLabel }}</div>
-				<div class="casting-slot-status__level__count">{{ slots.remaining }}/{{ slots.max }}</div>
+				<div class="casting-slot-status__level__count">{{ slots.max - slots.remaining }}/{{ slots.max }}</div>
 			</div>
 			<div class="casting-slot-status__used-slots" >
 				<div class="casting-slot-status__used-slot"

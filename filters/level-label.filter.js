@@ -1,4 +1,5 @@
 export default function levelLabelFilter(level) {
+	level = Number(level);
 	let levelString = '';
 
 	switch (level) {

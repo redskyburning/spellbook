@@ -4,7 +4,7 @@
   `is-${this.spell.school}`
   ]">
 		<!--<div class="spell-list-item__secondary"></div>-->
-		<div class="spell-list-item__primary" >
+		<div class="spell-list-item__primary">
 			<b-tooltip :label="spell|schoolLevel"
 								 type="is-white"
 								 position="is-left">
@@ -14,9 +14,11 @@
 				</div>
 			</b-tooltip>
 			<div class="spell-list-item__name"
-					 @click="isExpanded = !isExpanded">{{ spell.name }}</div>
+					 @click="isExpanded = !isExpanded">{{ spell.name }}
+			</div>
 			<button class="button is-primary"
-							@click="cast(spell,spell.level)"><i class="fas fa-magic"></i></button>
+							v-if="canCast(spell,$store.state.castingSlots)"
+							@click="$emit('cast',spell)"><i class="fas fa-magic"></i></button>
 		</div>
 		<div class="spell-list-item__secondary">
 			<div class="spell-list-item__meta">
@@ -27,20 +29,25 @@
 			</div>
 			<b-taglist class="spell-list-item__tags">
 				<b-tag type="is-info"
-							 v-if="spell.components.verbal">V</b-tag>
+							 v-if="spell.components.verbal">V
+				</b-tag>
 				<b-tag type="is-info"
-							 v-if="spell.components.somatic">S</b-tag>
+							 v-if="spell.components.somatic">S
+				</b-tag>
 				<b-tag type="is-info"
 							 v-if="spell.components.material">
 					<b-tooltip :label="materialString"
 										 multilined
 										 type="is-info"
-										 position="is-top">M</b-tooltip>
+										 position="is-top">M
+					</b-tooltip>
 				</b-tag>
 				<b-tag type="is-info"
-							 v-if="spell.concentration">Concentration</b-tag>
+							 v-if="spell.concentration">Concentration
+				</b-tag>
 				<b-tag type="is-info"
-							 v-if="spell.isRitual">Ritual</b-tag>
+							 v-if="spell.isRitual">Ritual
+				</b-tag>
 			</b-taglist>
 			<p v-for="(p, pIndex) in spell.description"
 				 :key="pIndex">{{ p }}</p>
@@ -60,47 +67,22 @@
 		},
 		data() {
 			return {
-				isExpanded: false
+				isExpanded     : false,
+				castModalActive: false
 			}
 		},
-		methods: {
-			cast(spell,level) {
-				this.$store.dispatch('castSpell',{
-					spell,
-					level
-				})
-					.then(() => {
-						let message = `${spell.name} cast` + ((spell.level !== level) ? ` at level ${level}` : '');
-
-						this.$toast.open({
-							duration: 1000,
-							message: message,
-							position: 'is-bottom',
-							queue: false,
-							type: 'is-success'
-						})
-					})
-					.catch((error) => {
-						this.$toast.open({
-							duration: 1000,
-							message: error,
-							position: 'is-bottom',
-							queue: false,
-							type: 'is-danger'
-						})
-					});
-			},
-			canCast(spell,castingSlots) {
-				if(spell.level === 0) {
+		methods : {
+			canCast(spell, castingSlots) {
+				if (spell.level === 0) {
 					return true;
 				}
 
-				let canI = false;
-				let levels = Object.keys(castingSlots);
+				let canI     = false;
+				let levels   = Object.keys(castingSlots);
 				let maxLevel = levels[levels.length - 1];
 
-				for(let i = Number(spell.level); i <= maxLevel; i++) {
-					if(castingSlots[i].remaining > 0) {
+				for (let i = Number(spell.level); i <= maxLevel; i++) {
+					if (castingSlots[i].remaining > 0) {
 						canI = true;
 					}
 				}
@@ -123,7 +105,7 @@
 			align-items: center;
 			font-size: 1.5rem;
 			justify-content: space-between;
-			cursor:pointer;
+			cursor: pointer;
 
 			> * + * {
 				margin-left: .5rem;
@@ -148,7 +130,7 @@
 		}
 
 		&__name {
-			flex:1 1 auto;
+			flex: 1 1 auto;
 
 			&:first-letter {
 				font-size: 1.2em;
@@ -159,7 +141,7 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
-			flex-wrap:wrap;
+			flex-wrap: wrap;
 		}
 
 		&__school {
@@ -167,9 +149,9 @@
 		}
 
 		&__tags {
-			margin-top:$app-spacing;
-			font-weight:bold;
-			font-family:$family-sans-serif;
+			margin-top: $app-spacing;
+			font-weight: bold;
+			font-family: $family-sans-serif;
 		}
 
 		&__components {

@@ -19,26 +19,31 @@ const createStore = () => {
 			],
 			castingSlots: {
 				1 : {
+					level: 1,
 					max : 4,
-					remaining : 3,
+					remaining : 4,
 					cast : []
 				},
 				2 : {
+					level: 2,
 					max : 3,
 					remaining : 3,
 					cast : []
 				},
 				3 : {
+					level: 3,
 					max : 3,
 					remaining : 3,
 					cast : []
 				},
 				4 : {
+					level: 4,
 					max : 3,
 					remaining : 3,
 					cast : []
 				},
 				5 : {
+					level: 5,
 					max : 2,
 					remaining : 2,
 					cast : []
