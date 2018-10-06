@@ -1,10 +1,12 @@
 import SpellFilters from '~/components/SpellFilters.vue';
 import SpellList from '~/components/SpellList.vue';
+import CastingSlotStatus from '~/components/CastingSlotStatus.vue';
 
 export default {
 	components: {
 		SpellFilters,
-		SpellList
+		SpellList,
+		CastingSlotStatus
 	},
 	data() {
 		return {

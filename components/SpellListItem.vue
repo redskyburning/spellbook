@@ -5,14 +5,17 @@
   ]">
 		<!--<div class="spell-list-item__secondary"></div>-->
 		<div class="spell-list-item__primary" @click="isExpanded = !isExpanded">
-			<div class="spell-list-item__name">{{ spell.name }}</div>
-			<b-tooltip :label="tooltipString"
+			<b-tooltip :label="spell|schoolLevel"
 								 type="is-white"
 								 position="is-left">
 				<div class="spell-list-item__level">
 					<span>{{ spell.level || 'C' }}</span>
 				</div>
 			</b-tooltip>
+			<div class="spell-list-item__name">{{ spell.name }}</div>
+			<button class="button is-primary"
+							v-if="canCast(spell,$store.state.castingSlots)"
+							@click="cast(spell,spell.level)">Cast</button>
 		</div>
 		<div class="spell-list-item__secondary">
 			<div class="spell-list-item__meta">
@@ -50,31 +53,6 @@
 			spell: Object
 		},
 		computed: {
-			tooltipString() {
-				let level = '';
-
-				switch (this.spell.level) {
-					case 0 :
-						level = 'Cantrip';
-						break;
-					case 1 :
-						level = '1st Level';
-						break;
-					case 2 :
-						level = '2nd Level';
-						break;
-					case 3 :
-						level = '3rd Level';
-						break;
-					default :
-						level = `${this.spell.level}th Level`;
-						break;
-				}
-
-				let school = this.spell.school.charAt(0).toUpperCase() + this.spell.school.slice(1);
-
-				return `${school}, ${level}`;
-			},
 			materialString() {
 				return `Material Component: ${this.spell.components.details}`;
 			}
@@ -82,6 +60,32 @@
 		data() {
 			return {
 				isExpanded: false
+			}
+		},
+		methods: {
+			cast(spell,level) {
+				this.$store.dispatch('castSpell',spell,level);
+			},
+			canCast(spell,castingSlots) {
+				if(spell.level === 0) {
+					return true;
+				}
+
+				let canI = false;
+				let levels = Object.keys(castingSlots);
+				let maxLevel = levels[levels.length - 1];
+
+				for(let i = Number(spell.level); i <= maxLevel; i++) {
+					if(Array.isArray(castingSlots[i])) {
+						if(castingSlots[i].filter(slot => slot !== null).length > 0) {
+							canI = true;
+						}
+					} else {
+						console.error('???',castingSlots[i],castingSlots,i);
+					}
+				}
+
+				return canI;
 			}
 		}
 	}

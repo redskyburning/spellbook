@@ -58,7 +58,7 @@
 	export default {
 		data() {
 			return {
-				query         : '',
+				query         : this.$store.state.nameQuery,
 				selectedLevel : 0,
 				isRitual      : false,
 				concentration : false,

@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 const createStore = () => {
 	return new Vuex.Store({
 		state    : {
-			nameQuery    : '',
+			nameQuery    : 'aid',
 			level        : null,
 			isRitual     : false,
 			concentration: false,
@@ -16,7 +16,14 @@ const createStore = () => {
 					spellbooks : ['cleric','cleric--death'],
 					selected : null
 				}
-			]
+			],
+			castingSlots: {
+				1 : ['foo',null,null,null],
+				2 : [null,null,null],
+				3 : [null,null,null],
+				4 : [null,null,null],
+				5 : [null,null]
+			}
 		},
 		mutations: {
 			setLevel(state, level) {
@@ -94,13 +101,7 @@ const createStore = () => {
 			},
 			init(store) {
 				if (store.state.spells.length < 1) {
-					this.$services.spells.getAllSpells()
-						.then((spells) => {
-							store.commit('setSpells', spells);
-						})
-						.catch((error) => {
-							console.error(error);
-						});
+					store.dispatch('query');
 				}
 			}
 		}
