@@ -77,7 +77,7 @@
 
 				for(let i = Number(spell.level); i <= maxLevel; i++) {
 					if(Array.isArray(castingSlots[i])) {
-						if(castingSlots[i].filter(slot => slot !== null).length > 0) {
+						if(castingSlots[i].filter(slot => slot === null).length > 0) {
 							canI = true;
 						}
 					} else {

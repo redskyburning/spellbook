@@ -59,9 +59,9 @@
 		data() {
 			return {
 				query         : this.$store.state.nameQuery,
-				selectedLevel : 0,
-				isRitual      : false,
-				concentration : false,
+				selectedLevel : this.$store.state.level,
+				isRitual      : this.$store.state.isRitual,
+				concentration : this.$store.state.level,
 				levels        : [
 					'Any',
 					'Cantrip',
@@ -87,7 +87,7 @@
 					transmutation: 'Transmutation'
 				},
 				selectedSchool: 'any',
-				selectedBooks : [],
+				selectedBooks : this.$store.state.spellbooks,
 				spellbooks    : supportedSpellbooks,
 				filterBooks   : false
 			}
