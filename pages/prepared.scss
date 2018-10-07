@@ -1,4 +1,4 @@
-.spellbook {
+.prepared {
 	display: flex;
 	min-height:100vh;
 
@@ -21,22 +21,5 @@
 		position:sticky;
 		top:0;
 		overflow-y:auto;
-	}
-
-	&__result {
-
-		&.is-expanded {
-			border-bottom:$app-border;
-			padding-bottom:$app-padding;
-		}
-
-		& + & {
-			margin-top:$app-padding;
-		}
-	}
-
-	&__no-results {
-		text-align:center;
-		font-size:1.5rem;
 	}
 }
