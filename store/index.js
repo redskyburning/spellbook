@@ -131,6 +131,11 @@ const createStore = () => {
 				store.commit('setSpellbooks', spellbooks);
 				store.dispatch('query');
 			},
+			filterForPreparedSlot(store, { level, spellbooks }) {
+				store.commit('setLevel', level);
+				store.commit('setSpellbooks', spellbooks);
+				store.dispatch('query');
+			},
 			query(store) {
 				let options = {
 					//spellbook: store.state.spellbook,

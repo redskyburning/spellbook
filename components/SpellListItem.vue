@@ -17,7 +17,7 @@
 					 @click="isExpanded = !isExpanded">{{ spell.name }}
 			</div>
 			<button class="button is-primary"
-							v-if="canCast(spell,$store.state.castingSlots)"
+							v-if="showCast && canCast(spell,$store.state.castingSlots)"
 							@click="$emit('cast',spell)"><i class="fas fa-magic"></i></button>
 		</div>
 		<div class="spell-list-item__secondary">
@@ -58,7 +58,8 @@
 <script>
 	export default {
 		props   : {
-			spell: Object
+			spell: Object,
+			showCast: Boolean
 		},
 		computed: {
 			materialString() {

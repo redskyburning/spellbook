@@ -4,10 +4,19 @@
 
 <template>
 	<section class="prepared">
-		<spell-filters class="prepared__search"></spell-filters>
+		<div class="prepared__slots">
+			<div class="prepared__slot"
+					 v-for="(preparedSlot,preparedIndex) in $store.state.preparedSlots"
+					 :key="preparedIndex">
+				<div class="prepared__slot__no-results"
+						 @click="selectPreparedSlot(preparedSlot)">
+					Empty slot
+				</div>
+			</div>
+		</div>
 		<spell-list class="prepared__results"
+								:show-cast="false"
 								:spells="$store.state.spells"></spell-list>
-		<casting-slot-status class="prepared__slots"></casting-slot-status>
 	</section>
 </template>
 

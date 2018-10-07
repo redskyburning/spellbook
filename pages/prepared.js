@@ -12,6 +12,11 @@ export default {
 		return {
 		}
 	},
+	methods : {
+		selectPreparedSlot(preparedSlot) {
+			this.$store.dispatch('filterForPreparedSlot',preparedSlot);
+		}
+	},
 	fetch(context) {
 		context.store.dispatch('init');
 	}

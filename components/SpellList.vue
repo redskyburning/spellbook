@@ -3,6 +3,7 @@
 		<spell-list-item v-for="spell in spells"
 										 v-if="spells.length > 0"
 										 class="spell-list__result"
+										 :show-cast="showCast"
 										 @cast="openCastModal"
 										 :spell="spell"
 										 :key="spell._id"/>
@@ -44,7 +45,8 @@
 			CastModal
 		},
 		props     : {
-			spells: Array
+			spells: Array,
+			showCast: Boolean
 		},
 		data() {
 			return {

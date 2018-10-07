@@ -6,6 +6,7 @@
   <section class="spellbook">
 		<spell-filters class="spellbook__search"></spell-filters>
 		<spell-list class="spellbook__results"
+								:show-cast="true"
 								:spells="$store.state.spells"></spell-list>
 		<casting-slot-status class="spellbook__slots"></casting-slot-status>
   </section>
