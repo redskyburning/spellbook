@@ -6,6 +6,7 @@
 		<!--<div class="spell-list-item__secondary"></div>-->
 		<div class="spell-list-item__primary">
 			<b-tooltip :label="spell|schoolLevel"
+								 v-if="showLevel"
 								 type="is-white"
 								 position="is-left">
 				<div class="spell-list-item__level"
@@ -19,6 +20,9 @@
 			<button class="button is-primary"
 							v-if="showCast && canCast(spell,$store.state.castingSlots)"
 							@click="$emit('cast',spell)"><i class="fas fa-magic"></i></button>
+			<button class="button is-primary"
+							v-if="showSelect"
+							@click="$emit('select',spell)"><i class="far fa-check-circle"></i></button>
 		</div>
 		<div class="spell-list-item__secondary">
 			<div class="spell-list-item__meta">
@@ -59,7 +63,18 @@
 	export default {
 		props   : {
 			spell: Object,
-			showCast: Boolean
+			showCast: {
+				type: Boolean,
+				default: false
+			},
+			showSelect: {
+				type: Boolean,
+				default: false
+			},
+			showLevel: {
+				type: Boolean,
+				default: false
+			}
 		},
 		computed: {
 			materialString() {

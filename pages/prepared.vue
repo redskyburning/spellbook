@@ -9,13 +9,14 @@
 					 v-for="(preparedSlot,preparedIndex) in $store.state.preparedSlots"
 					 :key="preparedIndex">
 				<div class="prepared__slot__no-results"
+						 v-if="preparedSlot.selected === null"
 						 @click="selectPreparedSlot(preparedSlot)">
 					Empty slot
 				</div>
 			</div>
 		</div>
 		<spell-list class="prepared__results"
-								:show-cast="false"
+								:show-select="true"
 								:spells="$store.state.spells"></spell-list>
 	</section>
 </template>

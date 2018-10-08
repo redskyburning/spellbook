@@ -18,6 +18,6 @@ export default {
 		}
 	},
 	fetch(context) {
-		context.store.dispatch('init');
+		context.store.dispatch('clear');
 	}
 }

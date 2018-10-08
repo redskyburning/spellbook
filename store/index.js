@@ -159,6 +159,9 @@ const createStore = () => {
 				if (store.state.spells.length < 1) {
 					store.dispatch('query');
 				}
+			},
+			clear(store) {
+				store.commit('setSpells',[]);
 			}
 		}
 	})

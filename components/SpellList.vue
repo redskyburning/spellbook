@@ -4,11 +4,13 @@
 										 v-if="spells.length > 0"
 										 class="spell-list__result"
 										 :show-cast="showCast"
+										 :show-select="showSelect"
 										 @cast="openCastModal"
 										 :spell="spell"
 										 :key="spell._id"/>
 
-		<div class="spell-list__no-results" v-if="$store.state.spells.length < 1">No spells found!</div>
+		<div class="spell-list__no-results"
+				 v-if="$store.state.spells.length < 1">No spells found!</div>
 
 		<b-modal :active.sync="castModalActive">
 			<div class="cast-modal" v-if="selectedSpell">
@@ -46,7 +48,18 @@
 		},
 		props     : {
 			spells: Array,
-			showCast: Boolean
+			showCast: {
+				type: Boolean,
+				default: false
+			},
+			showSelect: {
+				type: Boolean,
+				default: false
+			},
+			showLevel: {
+				type: Boolean,
+				default: false
+			}
 		},
 		data() {
 			return {
