@@ -14,12 +14,35 @@
 		flex: 0 1 24rem;
 	}
 
-	&__search {
+	&__slots {
 		width: 300px;
 		flex: 0 1 auto;
 		max-height:100vh;
 		position:sticky;
 		top:0;
 		overflow-y:auto;
+
+		> * + * {
+			margin-top:$app-spacing;
+		}
+	}
+
+	&__empty-slot {
+		padding:$app-spacing $app-padding;
+		border-radius:$app-spacing;
+		border:$app-border;
+
+		&__title {
+			font-size:1.2em;
+			text-align:center;
+		}
+
+		&__meta {
+			display:flex;
+			flex-direction:row;
+			justify-content: space-around;
+			align-items:center;
+		}
+
 	}
 }

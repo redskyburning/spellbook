@@ -4,7 +4,7 @@ const createStore = () => {
 	return new Vuex.Store({
 		state    : {
 			nameQuery    : '',
-			level        : null,
+			level        : 0,
 			isRitual     : false,
 			concentration: false,
 			school       : null,
@@ -12,10 +12,15 @@ const createStore = () => {
 			spells       : [],
 			preparedSlots: [
 				{
-					level : 3,
-					spellbooks : ['cleric','cleric--death'],
+					level : 0,
+					spellbooks : ['warlock','warlock--great_old_one'],
 					selected : null
-				}
+				},
+				{
+					level : 0,
+					spellbooks : ['any'],
+					selected : null
+				},
 			],
 			castingSlots: {
 				1 : {

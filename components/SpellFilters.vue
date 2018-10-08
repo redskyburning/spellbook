@@ -44,7 +44,7 @@
 						 :key="bookKey">
 					<b-checkbox v-model="selectedBooks"
 											:native-value="bookKey">
-						{{ parseSpellbookKey(bookKey) }}
+						{{ bookKey|spellbookLabel }}
 					</b-checkbox>
 				</div>
 			</div>
@@ -116,18 +116,6 @@
 				if (!this.filterBooks) {
 					this.selectedBooks.splice(0, this.selectedBooks.length);
 				}
-			}
-		},
-		methods   : {
-			parseSpellbookKey(key) {
-				return key.replace(/--(\w+)/, ' ($1)')
-					.replace(/_/g, ' ')
-					.replace(/([\s|(])(\w)/g, (a, b, c) => {
-						return `${b}${c.toUpperCase()}`;
-					})
-					.replace(/^(\w)/g, (a) => {
-						return a.toUpperCase();
-					});
 			}
 		}
 	}

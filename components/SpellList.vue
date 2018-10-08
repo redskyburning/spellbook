@@ -6,6 +6,7 @@
 										 :show-cast="showCast"
 										 :show-select="showSelect"
 										 @cast="openCastModal"
+										 @select=""
 										 :spell="spell"
 										 :key="spell._id"/>
 

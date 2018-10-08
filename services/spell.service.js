@@ -154,10 +154,6 @@ export default class SpellService {
 					let fields      = [];
 					let bookFilters = [];
 
-					if(typeof options.nameQuery === 'string') {
-
-					}
-
 					if (Number.isInteger(options.level) && options.level >= 0) {
 						selectors.level = options.level;
 						fields.push('level');
@@ -173,7 +169,7 @@ export default class SpellService {
 						fields.push('school');
 					}
 
-					if (Array.isArray(options.spellbooks) && options.spellbooks.length > 0) {
+					if (Array.isArray(options.spellbooks) && options.spellbooks.length > 0 && !options.spellbooks.includes('any')) {
 						if (options.spellbooks.length > 1) {
 							selectors.$or = [];
 
@@ -213,7 +209,7 @@ export default class SpellService {
 
 					this.db.createIndex(createParams)
 						.then((result) => {
-							console.warn('???', findParams, createParams);
+							console.warn('query???', findParams, createParams);
 							this.db.find(findParams)
 								.then((results) => {
 									if (results.warning) {
