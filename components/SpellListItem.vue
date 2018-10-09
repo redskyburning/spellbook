@@ -22,7 +22,7 @@
 							@click="$emit('cast',spell)"><i class="fas fa-magic"></i></button>
 			<button class="button is-primary"
 							v-if="showSelect"
-							@click="$emit('select',spell)"><i class="far fa-check-circle"></i></button>
+							@click="select()"><i class="far fa-check-circle"></i></button>
 		</div>
 		<div class="spell-list-item__secondary">
 			<div class="spell-list-item__meta">
@@ -104,6 +104,9 @@
 				}
 
 				return canI;
+			},
+			select() {
+				this.$store.dispatch('setSelectedSpellForPreparedSlot',this.spell);
 			}
 		}
 	}

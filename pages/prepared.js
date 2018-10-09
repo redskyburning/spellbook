@@ -13,8 +13,9 @@ export default {
 		}
 	},
 	methods : {
-		selectPreparedSlot(preparedSlot) {
-			this.$store.dispatch('filterForPreparedSlot',preparedSlot);
+		selectPreparedSlot(preparedSlot, preparedSlotIndex) {
+			console.warn('Selecting!');
+			this.$store.dispatch('filterForPreparedSlot',{ preparedSlot : preparedSlot, preparedSlotIndex : preparedSlotIndex });
 		}
 	},
 	fetch(context) {

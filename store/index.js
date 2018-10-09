@@ -3,55 +3,118 @@ import Vuex from 'vuex'
 const createStore = () => {
 	return new Vuex.Store({
 		state    : {
-			nameQuery    : '',
-			level        : 0,
-			isRitual     : false,
-			concentration: false,
-			school       : null,
-			spellbooks   : [],
-			spells       : [],
-			preparedSlots: [
+			nameQuery                : '',
+			level                    : 0,
+			isRitual                 : false,
+			concentration            : false,
+			school                   : null,
+			spellbooks               : [],
+			spells                   : [],
+			selectedPreparedSlotIndex: null,
+			preparedSlots            : [
 				{
-					level : 0,
-					spellbooks : ['warlock','warlock--great_old_one'],
-					selected : null
+					level     : 0,
+					spellbooks: ['warlock', 'warlock--great_old_one'],
+					selected  : {
+						"name": "Chill Touch",
+						"level": 0,
+						"time": "1 action",
+						"range": "120 feet",
+						"duration": "1 round",
+						"concentration": false,
+						"description": [
+							"You create a ghostly, skeletal hand in the space of a creature within range. Make a ranged spell attack against the creature to assail it with the chill of the grave. On a hit, the target takes 1d8 necrotic damage, and it can't regain hit points until the start of your next turn. Until then, the hand clings to the target.",
+							"",
+							"If you hit an undead target, it also has disadvantage on attack rolls against you until the end of your next turn.",
+							"",
+							"This spell's damage increases by 1d8 when you reach 5th level (2d8), 11th level (3d8), and 17th level (4d8)."
+						],
+						"isRitual": false,
+						"school": "necromancy",
+						"components": {
+							"verbal": true,
+							"somatic": true,
+							"material": false,
+							"details": null
+						},
+						"spellbooks": {
+							"artificer": false,
+							"bard": false,
+							"cleric": false,
+							"cleric--arcana": false,
+							"cleric--death": false,
+							"cleric--knowledge": false,
+							"cleric--life": false,
+							"cleric--light": false,
+							"cleric--nature": false,
+							"cleric--tempest": false,
+							"cleric--trickery": false,
+							"cleric--war": false,
+							"druid": false,
+							"druid--arctic": false,
+							"druid--coast": false,
+							"druid--desert": false,
+							"druid--forest": false,
+							"druid--grassland": false,
+							"druid--mountain": false,
+							"druid--swamp": false,
+							"druid--underdark": false,
+							"fighter--eldritch_knight": false,
+							"paladin": false,
+							"paladin--ancients": false,
+							"paladin--crown": false,
+							"paladin--devotion": false,
+							"paladin--oathbreaker": false,
+							"paladin--vengeance": false,
+							"ranger": false,
+							"rogue--arcane_trickster": false,
+							"sorcerer": true,
+							"warlock": true,
+							"warlock--archfey": false,
+							"warlock--fiend": false,
+							"warlock--great_old_one": false,
+							"warlock--undying": false,
+							"wizard": true
+						},
+						"_id": "chill_touch"
+					}
 				},
 				{
-					level : 0,
-					spellbooks : ['any'],
-					selected : null
+					level     : 0,
+					spellbooks: ['any'],
+					selected  : null
 				},
 			],
-			castingSlots: {
-				1 : {
-					level: 1,
-					max : 4,
-					remaining : 4,
-					cast : []
+			castingSlots             : {
+				1: {
+					level    : 1,
+					max      : 4,
+					remaining: 4,
+					cast     : []
 				},
-				2 : {
-					level: 2,
-					max : 3,
-					remaining : 3,
-					cast : []
+				2: {
+					level    : 2,
+					max      : 3,
+					remaining: 3,
+					cast     : []
 				},
-				3 : {
-					level: 3,
-					max : 3,
-					remaining : 3,
-					cast : []
+				3: {
+					level    : 3,
+					max      : 3,
+					remaining: 3,
+					cast     : []
 				},
-				4 : {
-					level: 4,
-					max : 3,
-					remaining : 3,
-					cast : []
+				4: {
+					level    : 4,
+					max      : 3,
+					remaining: 3,
+					cast     : []
 				},
-				5 : {
-					level: 5,
-					max : 2,
-					remaining : 2,
-					cast : []
+				5: {
+					level    : 5,
+					max      : 2,
+					remaining: 2,
+					cast     : []
 				},
 			}
 		},
@@ -80,20 +143,26 @@ const createStore = () => {
 			setSpellbooks(state, spellbooks) {
 				state.spellbooks = spellbooks;
 			},
-			addCast(state, { spell, level }) {
+			setSelectedPreparedSlotIndex(state, preparedSlotIndex) {
+				state.selectedPreparedSlotIndex = preparedSlotIndex;
+			},
+			setSelectedSpellForPreparedSlot(state, {preparedSlotIndex, spell}) {
+				state.preparedSlots[preparedSlotIndex].selected = spell;
+			},
+			addCast(state, {spell, level}) {
 				let slot = state.castingSlots[level];
 
-				if(slot) {
+				if (slot) {
 					slot.remaining--;
 					slot.cast.push(spell);
 				}
 			}
 		},
 		actions  : {
-			castSpell(store, { spell, level }) {
-				return new Promise((resolve,reject) => {
-					if(level > 0 && spell.level > 0){
-						if(store.state.castingSlots[level]) {
+			castSpell(store, {spell, level}) {
+				return new Promise((resolve, reject) => {
+					if (level > 0 && spell.level > 0) {
+						if (store.state.castingSlots[level]) {
 							if (store.state.castingSlots[level].remaining > 0) {
 								store.commit('addCast', {spell, level});
 								resolve();
@@ -136,14 +205,28 @@ const createStore = () => {
 				store.commit('setSpellbooks', spellbooks);
 				store.dispatch('query');
 			},
-			filterForPreparedSlot(store, { level, spellbooks }) {
-				store.commit('setLevel', level);
-				store.commit('setSpellbooks', spellbooks);
+			filterForPreparedSlot(store, {preparedSlot, preparedSlotIndex}) {
+				store.commit('setSelectedPreparedSlotIndex', preparedSlotIndex);
+				store.commit('setLevel', preparedSlot.level);
+				store.commit('setSpellbooks', preparedSlot.spellbooks);
 				store.dispatch('query');
+			},
+			setSelectedSpellForPreparedSlot(store, spell) {
+				let index = store.state.selectedPreparedSlotIndex;
+				if (store.state.preparedSlots[index]) {
+					if(spell && spell._id) {
+						store.commit('setSelectedSpellForPreparedSlot',{ spell : spell, preparedSlotIndex : index });
+						store.commit('setSelectedPreparedSlotIndex', null);
+						store.dispatch('clear');
+					} else {
+						console.error('Malformed spell in setSelectSpellForPreparedSlot!',spell);
+					}
+				} else {
+					console.error(`Prepared slot '${index}' not found`);
+				}
 			},
 			query(store) {
 				let options = {
-					//spellbook: store.state.spellbook,
 					spellbooks   : store.state.spellbooks,
 					level        : store.state.level,
 					nameQuery    : store.state.nameQuery,
@@ -166,7 +249,7 @@ const createStore = () => {
 				}
 			},
 			clear(store) {
-				store.commit('setSpells',[]);
+				store.commit('setSpells', []);
 			}
 		}
 	})

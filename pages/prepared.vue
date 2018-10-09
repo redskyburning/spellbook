@@ -5,25 +5,25 @@
 <template>
 	<section class="prepared">
 		<div class="prepared__slots">
-			<div class="prepared__slot"
+			<div class=""
 					 v-for="(preparedSlot,preparedIndex) in $store.state.preparedSlots"
 					 :key="preparedIndex">
-				<div class="prepared__empty-slot"
+				<div class="prepared__slot prepared__slot--filled"
+						 v-if="preparedSlot.selected !== null">
+					<div class="prepared__slot__title">{{ preparedSlot.selected.name }}</div>
+					<div class="prepared__slot__actions">
+						<button class="button is-primary is-small">
+							<i class="fas fa-exchange-alt"
+								 @click="selectPreparedSlot(preparedSlot, preparedIndex)"></i>
+						</button>
+					</div>
+				</div>
+				<div class="prepared__slot prepared__slot--empty"
 						 v-if="preparedSlot.selected === null"
-						 @click="selectPreparedSlot(preparedSlot)">
-					<div class="prepared__empty-slot__title">
+						 @click="selectPreparedSlot(preparedSlot, preparedIndex)">
+					<div class="prepared__slot__title">
 						<span>Empty slot</span>
 						<span>- {{ preparedSlot.level|levelLabel }}</span>
-						<!--<b-tooltip :label="preparedSlot.spellbooks|spellbookList"
-											 multilined
-											 position="is-left"
-											 :always="false"
-											 size="is-small"
-											 type="is-info">
-							<i class="fas fa-book"></i>
-						</b-tooltip>-->
-					</div>
-					<div class="prepared__empty-slot__meta">
 					</div>
 				</div>
 			</div>

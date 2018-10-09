@@ -27,15 +27,30 @@
 		}
 	}
 
-	&__empty-slot {
+	&__slot {
 		padding:$app-spacing $app-padding;
 		border-radius:$app-spacing;
 		border:$app-border;
 
 		&__title {
 			font-size:1.2em;
-			text-align:center;
 		}
+
+		&--empty & {
+			&__title {
+				text-align:center;
+			}
+		}
+
+		&--filled {
+			display:flex;
+			flex-direction:row;
+			justify-content: space-between;
+			align-items:center;
+		}
+	}
+
+	&__empty-slot {
 
 		&__meta {
 			display:flex;
